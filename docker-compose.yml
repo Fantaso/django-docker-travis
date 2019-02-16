@@ -4,9 +4,9 @@ services:
   db:
     image: postgres:9.5
     environment:
-      - POSTGRES_DB=pg_database
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=wine_ecommerce_db
+      - POSTGRES_USER=wine-admin
+      - POSTGRES_PASSWORD=wine-secret
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - db_data:/var/lib/postgresql/data/pgdata
