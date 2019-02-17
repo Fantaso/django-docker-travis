@@ -12,10 +12,10 @@ services:
       - db_data:/var/lib/postgresql/data/pgdata
 
   web:
-    build: ./wine-ecommerce
-    command: python3 manage.py runserver 0.0.0.0:8000
+    build: ./wine_ecommerce
+    command: python3 ./wine_ecommerce/manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./wine-ecommerce:/wine-ecommerce
+      - ./wine_ecommerce:/wine_ecommerce
     ports:
       - "8000:8000"
     depends_on:
