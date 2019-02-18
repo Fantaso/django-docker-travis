@@ -1,0 +1,10 @@
+{% extends "shop/base.html" %}
+
+{% block body %}
+<div class="container">
+    <h1>Numbers!</h1>
+    {% for num in nums %}
+        <p>number: {{num}}</p>
+    {% endfor %}
+</div>
+{% endblock body %}
