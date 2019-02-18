@@ -2,7 +2,8 @@ version: '3'
 
 services:
   db:
-    image: postgres:9.5
+    restart: always
+    image: postgres
     environment:
       - POSTGRES_DB=wine_ecommerce_db
       - POSTGRES_USER=wine-admin
@@ -12,12 +13,15 @@ services:
       - db_data:/var/lib/postgresql/data/pgdata
 
   web:
-    build: ./wine_ecommerce
-    command: python3 ./wine_ecommerce/manage.py runserver 0.0.0.0:8000
+    restart: always
+    build:
+        context: ./wine_ecommerce
+        dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./wine_ecommerce:/wine_ecommerce
     ports:
-      - "8000:8000"
+      - '8000:8000'
     depends_on:
       - db
 
