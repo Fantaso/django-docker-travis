@@ -4,10 +4,12 @@ services:
   - docker
 
 before_install:
-  - docker build -t fantaso/django-docker-travis -f Dockerfile
+  - docker-compose build tests
+  # - docker build -t fantaso/django-docker-travis -f wine_ecommerce/Dockerfile
 
 script:
-  - docker run fantaso/django-docker-travis python manage.py test shop
+  - docker-compose run web python manage.py test shop
+  # - docker run fantaso/django-docker-travis wine_ecommerce/python manage.py test shop
 
 # deploy:
 #   provider: elasticbeanstalk # service to deploy
@@ -15,7 +17,7 @@ script:
 #   app: 'django-docker-travis' # name of the app we named the EBS instance
 #   env: 'django-docker-travis-env' # name of environment created by EBS
 #   bucket_name: 'elasticbeanstalk-eu-central-1-472973582080' # bucket S3 created when a elasticbeanstalk environment was created
-#   bucket_path: 'wine-ecommerce'
+#   bucket_path: 'django-docker-travis' # a folder thats created automatically in the S3 bucket once deployed. the same name as the app name.
 #   access_key_id: $AWS_ACCESS_KEY # this key must be configure in travisCI environmental variables
 #   secret_access_id:
 #     secure: '$AWS_SECRET_KEY' # this key must be configure in travisCI environmental variables
