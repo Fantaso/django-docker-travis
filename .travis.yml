@@ -1,10 +1,14 @@
 sudo: required
+python:
+  - "3.4"
 
 services:
   - docker
-  - postgresql
 
 before_install:
+  - gem update --system
+  - apt-get install -y python3.4
+  - apt-get install --upgrade -y python-pip
   - docker --version
   - docker-compose --version
   # - echo "ENV GIT_SHA ${TRAVIS_COMMIT}" >> Dockerfile
@@ -15,12 +19,19 @@ before_install:
   # - docker build -t fantaso/django-docker-travis -f wine_ecommerce/Dockerfile
 
 script:
-  - docker-compose run -d db
-  # - docker-compose run tests python manage.py makemigrations
-  # - docker-compose run tests python manage.py migrate
+  - docker-compose up --build -d
+  - docker-compose ps
+  - docker container ls -a
+  # - docker-compose run -d db
+  - docker-compose run tests python manage.py makemigrations
+  - docker-compose run tests python manage.py migrate
   - docker-compose run tests python manage.py test shop
   # - docker run fantaso/django-docker-travis wine_ecommerce/python manage.py test shop
 
+after_success:
+# Stop containers and build our image
+- docker-compose stop
+- docker-compose build --no-cache
 # deploy:
 #   provider: elasticbeanstalk # service to deploy
 #   region: eu-central-1 # region of the EBS instance
