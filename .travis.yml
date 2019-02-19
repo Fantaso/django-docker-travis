@@ -39,8 +39,9 @@ deploy:
   env: 'django-docker-travis-env' # name of environment created by EBS
   bucket_name: 'elasticbeanstalk-eu-central-1-472973582080' # bucket S3 created when a elasticbeanstalk environment was created
   bucket_path: 'django-docker-travis' # a folder thats created automatically in the S3 bucket once deployed. the same name as the app name.
-  access_key_id: $AWS_ACCESS_KEY # this key must be configure in travisCI environmental variables
+  access_key_id:
+    secure: "$AWS_ACCESS_KEY" # this key must be configure in travisCI environmental variables
   secret_access_id:
-    secure: '$AWS_SECRET_KEY' # this key must be configure in travisCI environmental variables
+    secure: "$AWS_SECRET_KEY" # this key must be configure in travisCI environmental variables
   on:
     branch: master # only if changes occured in master branch is deployed
