@@ -5,6 +5,7 @@ services:
 
 before_install:
   - docker-compose build tests
+  - docker volume create --name=db_data
   # - docker build -t fantaso/django-docker-travis -f wine_ecommerce/Dockerfile
 
 script:
