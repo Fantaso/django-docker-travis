@@ -7,8 +7,8 @@ services:
 
 before_install:
   - gem update --system
-  - apt-get install -y python3.4
-  - apt-get install --upgrade -y python-pip
+  # - apt-get install -y python3.4
+  # - apt-get install --upgrade -y python-pip
   - docker --version
   - docker-compose --version
   # - echo "ENV GIT_SHA ${TRAVIS_COMMIT}" >> Dockerfile
