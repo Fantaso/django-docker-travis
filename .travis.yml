@@ -2,14 +2,22 @@ sudo: required
 
 services:
   - docker
+  - postgresql
 
 before_install:
+  - docker --version
+  - docker-compose --version
+  # - echo "ENV GIT_SHA ${TRAVIS_COMMIT}" >> Dockerfile
   - docker-compose build tests
+  - docker-compose build db
   - docker volume create --name=db_data
   # - docker build -t fantaso/django-docker-travis -f wine_ecommerce/Dockerfile
 
 script:
-  - docker-compose run web python manage.py test shop
+  - docker-compose run db -d
+  - docker-compose run tests python manage.py makemigrations
+  - docker-compose run tests python manage.py migrate
+  - docker-compose run tests python manage.py test shop
   # - docker run fantaso/django-docker-travis wine_ecommerce/python manage.py test shop
 
 # deploy:
