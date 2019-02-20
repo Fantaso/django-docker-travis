@@ -5,7 +5,7 @@ services:
     image: postgres
     restart: always
     environment:
-      - POSTGRES_DB=wine_ecommerce_db
+      - POSTGRES_DB=wine-db
       - POSTGRES_USER=wine-admin
       - POSTGRES_PASSWORD=wine-secret
       - PGDATA=/django-data

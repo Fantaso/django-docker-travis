@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'wine_ecommerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'wine_ecommerce_db',
+        'NAME': 'wine-db',
         'USER': 'wine-admin',
         'PASSWORD': 'wine-secret',
         'HOST': 'db',
