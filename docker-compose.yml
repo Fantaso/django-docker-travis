@@ -3,7 +3,7 @@ version: '3'
 services:
   db:
     image: postgres
-    # restart: always
+    restart: always
     environment:
       - POSTGRES_DB=wine-db
       - POSTGRES_USER=wine-admin
@@ -14,12 +14,12 @@ services:
 
   db_client:
       image: adminer
-      # restart: always
+      restart: always
       ports:
         - 8080:8080
 
   web:
-    # restart: always
+    restart: always
     image: fantaso/django-docker-travis:latest
     build:
         context: ./wine_ecommerce
