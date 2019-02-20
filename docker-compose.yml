@@ -2,15 +2,21 @@ version: '3'
 
 services:
   db:
-    # restart: always
     image: postgres
+    restart: always
     environment:
       - POSTGRES_DB=wine_ecommerce_db
       - POSTGRES_USER=wine-admin
       - POSTGRES_PASSWORD=wine-secret
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      - PGDATA=/var/lib/postgresql/data
     volumes:
-      - db_data:/var/lib/postgresql/data/pgdata
+      - ./db_data:/var/lib/postgresql/data
+
+  db_client:
+      image: admirer
+      restart: always
+      ports:
+        - 8080:8080
 
   web:
     # restart: always
@@ -35,6 +41,6 @@ services:
     depends_on:
       - db
 
-volumes:
-  db_data:
+# volumes:
+#   db_data:
     # external: true
