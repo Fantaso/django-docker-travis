@@ -3,7 +3,7 @@ version: '3'
 services:
   db:
     image: postgres
-    restart: always
+    # restart: always
     environment:
       - POSTGRES_DB=wine-db
       - POSTGRES_USER=wine-admin
@@ -14,19 +14,19 @@ services:
 
   db_client:
       image: adminer
-      restart: always
+      # restart: always
       ports:
         - 8080:8080
 
   web:
     # restart: always
+    image: fantaso/django-docker-travis:latest
     build:
         context: ./wine_ecommerce
         dockerfile: Dockerfile
-        image: fantaso/django-docker-travis:latest
-        labels:
-          shop: "shop webapp"
-          admin: "admin management"
+    labels:
+      shop: "shop webapp"
+      admin: "admin management"
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./wine_ecommerce:/django-app
@@ -37,12 +37,12 @@ services:
       - db
 
   tests:
+    image: fantaso/django-docker-travis:latest
     build:
         context: ./wine_ecommerce
         dockerfile: Dockerfile
-        image: fantaso/django-docker-travis:latest
-        labels:
-          test: "test webapp"
+    labels:
+      test: "test webapp"
     command: ["python", "manage.py", "test", "shop"]
     volumes:
       - ./wine_ecommerce:/django-app

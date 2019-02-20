@@ -47,6 +47,10 @@ install:
   # - docker build -t fantaso/django-docker-travis -f wine_ecommerce/Dockerfile
 
 script:
+  # - docker-compose pull
+  - docker-compose ps
+  - docker container ls -a
+
   - docker-compose up -d
   - docker-compose ps
   - docker container ls -a
