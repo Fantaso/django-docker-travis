@@ -1,37 +1,66 @@
 sudo: required
-python:
-  - "3.4"
+language: python
+  - "3.7"
 
 services:
   - docker
 
-before_install:
-  - gem update --system
+# before_install:
+# # Install dependencies
+# - gem update --system
+# - sudo apt-get install -y python3.7
+# - sudo apt-get install --upgrade -y python-pip
+# - sudo apt-get install jq
+# - sudo pip install --user virtualenv
+# # Create a virtual environment for AWS CLI
+# - virtualenv my_py3 --python=/usr/bin/python3.7
+# - source my_py3/bin/activate
+# - pip install --upgrade awscli
+# - pip install --upgrade awsebcli
+# # Set AWS information
+# - aws configure set aws_access_key_id $AWS_ACCESS_KEY
+# - aws configure set aws_secret_access_key $AWS_SECRET_KEY
+# - aws configure set default.region $DEPLOYMENT_REGION
+# - aws configure set metadata_service_timeout 1200
+# - aws configure set metadata_service_num_attempts 3
+# - aws configure list
+
+# ./scripts/upload_image_to_elastcbeanstalk.sh $TRAVIS_BUILD_ID $DEPLOYMENT_BUCKET $DEPLOYMENT_ENV $APP_NAME $DEPLOYMENT_REGION $IMAGE_NAME $DEPLOYMENT_ENV_NAME $DOCKER_USERNAME $DOCKER_REPOSITORY $DOCKER_PASSWORD $DOCKER_EMAIL
+
+install:
+  # - gem update --system
   # - apt-get install -y python3.4
   # - apt-get install --upgrade -y python-pip
   - docker --version
   - docker-compose --version
   # - echo "ENV GIT_SHA ${TRAVIS_COMMIT}" >> Dockerfile
-  - docker volume create --name=db_data
+  # - docker volume create --name=db_data
   # - docker-compose build tests
   # - docker-compose build db
+  # - docker login --username "$DOCKER_USERNAME" --password-stdin "$DOCKER_PASSWORD"
+  # - docker tag $IMAGE_NAME $DOCKER_USERNAME/$DOCKER_REPOSITORY:$TRAVIS_BUILD_ID
+  # docker tag django-docker-travis_web:latest fantaso/django-docker-travis:prod
+  # - docker push $DOCKER_USERNAME/$DOCKER_REPOSITORY:$TRAVIS_BUILD_ID
+  # docker push fantaso/django-docker-travis:1
+
 
   # - docker build -t fantaso/django-docker-travis -f wine_ecommerce/Dockerfile
 
 script:
-  - docker-compose up --build -d
+  - docker-compose up -d
   - docker-compose ps
   - docker container ls -a
   # - docker-compose run -d db
-  - docker-compose run tests python manage.py makemigrations
-  - docker-compose run tests python manage.py migrate
-  - docker-compose run tests python manage.py test shop
+  - docker-compose exec tests python manage.py makemigrations
+  - docker-compose exec tests python manage.py migrate
+  - docker-compose exec tests python manage.py test shop
   # - docker run fantaso/django-docker-travis wine_ecommerce/python manage.py test shop
 
 after_success:
 # Stop containers and build our image
   - docker-compose stop
-# - docker-compose build --no-cache
+  - docker-compose build --no-cache
+
 deploy:
   access_key_id:
     secure: "$AWS_ACCESS_KEY" # this key must be configure in travisCI environmental variables
@@ -41,10 +70,13 @@ deploy:
   provider: elasticbeanstalk # service to deploy
   region: "eu-central-1" # region of the EBS instance
   app: "django-docker-travis" # name of the app we named the EBS instance
-  env: "django-docker-travis-env" # name of environment created by EBS
+  env: "DjangoDockerTravis-env-1" # name of environment created by EBS
   bucket_name: "elasticbeanstalk-eu-central-1-472973582080" # bucket S3 created when a elasticbeanstalk environment was created
   bucket_path: "django-docker-travis" # a folder thats created automatically in the S3 bucket once deployed. the same name as the app name.
 
   skip_cleanup: true
   on:
     branch: master # only if changes occured in master branch is deployed
+
+notifications:
+  email: false
