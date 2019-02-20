@@ -1,7 +1,7 @@
 FROM python:3.6
 
 ENV PYTHONUNBUFFERED = 1
-ENV APP_DIR=/wine_ecommerce
+ENV APP_DIR=/django-app
 
 WORKDIR $APP_DIR
 
