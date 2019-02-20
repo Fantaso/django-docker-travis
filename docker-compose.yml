@@ -36,19 +36,19 @@ services:
     depends_on:
       - db
 
-  tests:
-    image: fantaso/django-docker-travis:latest
-    build:
-        context: ./wine_ecommerce
-        dockerfile: Dockerfile
-    labels:
-      test: "test webapp"
-    command: ["python", "manage.py", "test", "shop"]
-    volumes:
-      - ./wine_ecommerce:/django-app
-      - ./db_data:/django-data
-    depends_on:
-      - db
+  # tests:
+  #   image: fantaso/django-docker-travis:latest
+  #   build:
+  #       context: ./wine_ecommerce
+  #       dockerfile: Dockerfile
+  #   labels:
+  #     test: "test webapp"
+  #   command: ["python", "manage.py", "test", "shop"]
+  #   volumes:
+  #     - ./wine_ecommerce:/django-app
+  #     - ./db_data:/django-data
+  #   depends_on:
+  #     - db
 
 # volumes:
 #   db_data:
