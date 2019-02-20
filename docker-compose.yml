@@ -10,7 +10,7 @@ services:
       - POSTGRES_PASSWORD=wine-secret
       - PGDATA=/django-data
     volumes:
-      - ./db_data:/django-data
+      - db-data:/django-data
 
   db_client:
       image: adminer
@@ -20,7 +20,7 @@ services:
 
   web:
     restart: always
-    image: fantaso/django-docker-travis:latest
+    image: fantaso/web-django-docker-travis:5
     build:
         context: ./wine_ecommerce
         dockerfile: Dockerfile
@@ -30,7 +30,6 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./wine_ecommerce:/django-app
-      - ./db_data:/django-data
     ports:
       - 8000:8000
     depends_on:
@@ -50,6 +49,6 @@ services:
   #   depends_on:
   #     - db
 
-# volumes:
-#   db_data:
-    # external: true
+volumes:
+  db-data:
+    external: true

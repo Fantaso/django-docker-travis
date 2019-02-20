@@ -5,7 +5,7 @@ def home(request):
 
     num4 = 10
     context = {
-        'nums': [7,17,27],
+        'nums': [9,17,27],
         "nums2": {
             'num1':2,
             'num2':3,

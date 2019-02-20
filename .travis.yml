@@ -34,7 +34,7 @@ install:
   - docker --version
   - docker-compose --version
   # - echo "ENV GIT_SHA ${TRAVIS_COMMIT}" >> Dockerfile
-  # - docker volume create --name=db_data
+  - docker volume create --name=db-data
   # - docker-compose build tests
   # - docker-compose build db
   # - docker login --username "$DOCKER_USERNAME" --password-stdin "$DOCKER_PASSWORD"
